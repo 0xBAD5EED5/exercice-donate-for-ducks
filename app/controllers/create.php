@@ -9,10 +9,12 @@ $api_key = $_ENV['API_KEY'];
 
 $stripe = new \Stripe\StripeClient($api_key);
 
-function calculateOrderAmount(int $amount): int {
-    // Securité : on s'assure d'un montant minimum de 1€ (100 centimes)
-    $amount = max(1, $amount);
-    return $amount * 100;
+function calculateOrderAmount($amount): int {
+    // Sécurité : validation stricte de l'entrée (entier positif uniquement)
+    if (!is_numeric($amount) || !is_int(0 + $amount) || $amount < 1) {
+        throw new InvalidArgumentException('Montant invalide.');
+    }
+    return (int)$amount * 100;
 }
 
 header('Content-Type: application/json');
