@@ -3,7 +3,7 @@
 /* global fetch */
 /* global URLSearchParams */
 
-const stripe;
+const stripe = Stripe('pk_test_51Rnaz5RZDnyRj9pxOlIy09k8ak3fcM0YMx5Xbn3qwhx0kAopaIYm6ySv5bYxIEK7KdHskMStWsnEyWUN73Ii0mMr00mxIPULX5');
 
 let amount;
 initialize();
@@ -45,7 +45,7 @@ async function handleSubmit(e) {
   const { error } = await stripe.confirmPayment({
     elements,
     confirmParams: {
-      return_url: "",
+      return_url: "https://saidtalbi.sites.3wa.io/exercice-donate-for-ducks/public/index.php",
     },
   });
 
