@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 // Chargement des variables d'environnement
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../config');
@@ -22,7 +22,12 @@ try {
     // retrieve JSON from POST body
     $jsonStr = file_get_contents('php://input');
     $jsonObj = json_decode($jsonStr);
-    
+
+    if (!$jsonObj || !isset($jsonObj->amount)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Montant non fourni ou JSON invalide.']);
+        exit;
+    }
 
     $paymentIntent = $stripe->paymentIntents->create([
         'amount' => calculateOrderAmount($jsonObj->amount),
@@ -39,5 +44,3 @@ try {
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage()]);
 }
-
-var_dump($jsonObj);
