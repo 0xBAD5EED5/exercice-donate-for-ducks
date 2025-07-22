@@ -9,7 +9,7 @@ $api_key = $_ENV['API_KEY'];
 
 $stripe = new \Stripe\StripeClient($api_key);
 
-function calculateOrderAmount($amount): int {
+function calculateOrderAmount(int $amount): int {
     $amount = htmlspecialchars($amount);
     // On s'assure d'un montant minimum de 1€ (100 centimes)
     $amount = max(1, (float)$amount);
@@ -22,6 +22,7 @@ try {
     // retrieve JSON from POST body
     $jsonStr = file_get_contents('php://input');
     $jsonObj = json_decode($jsonStr);
+    
 
     $paymentIntent = $stripe->paymentIntents->create([
         'amount' => calculateOrderAmount($jsonObj->amount),
@@ -39,3 +40,4 @@ try {
     echo json_encode(['error' => $e->getMessage()]);
 }
 
+var_dump($jsonObj);
