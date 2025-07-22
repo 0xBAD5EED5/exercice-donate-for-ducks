@@ -1,5 +1,14 @@
 <?php
 
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Chargement des variables d'environnement
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$api_key = $_ENV['API_KEY'];
+
+$stripe = new \Stripe\StripeClient($api_key);
+
 function calculateOrderAmount(int $amount): int {
     // Replace this constant with a calculation of the order's amount
     // Calculate the order total on the server to prevent
