@@ -10,10 +10,9 @@ $api_key = $_ENV['API_KEY'];
 $stripe = new \Stripe\StripeClient($api_key);
 
 function calculateOrderAmount(int $amount): int {
-    // Replace this constant with a calculation of the order's amount
-    // Calculate the order total on the server to prevent
-    // people from directly manipulating the amount on the client
-    return 1400;
+    // Securité : on s'assure d'un montant minimum de 1€ (100 centimes)
+    $amount = max(1, $amount);
+    return $amount * 100;
 }
 
 header('Content-Type: application/json');

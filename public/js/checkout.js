@@ -10,7 +10,7 @@ const amountInput = document.getElementById('montant-personnalise');
 amountInput.addEventListener('input', function() {
 	amount = parseFloat(this.value) || 0;
 	console.log("Nouveau montant :", amount);
-	if (amount => 1) {
+	if (amount >= 1) {
 		initialize();
 	}
 });
